@@ -1,0 +1,4 @@
+Appium-Python-Client
+loguru
+parse
+tqdm
