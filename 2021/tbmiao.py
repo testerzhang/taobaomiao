@@ -160,8 +160,6 @@ class TaoBao(object):
                     else:
                         wait_time_pbar(5 + 20)
 
-                        # wait_time_pbar(20)
-
                         logger.debug(f"返回一下")
                         self.driver.back()
                         wait_time_pbar(8)
@@ -227,10 +225,8 @@ class TaoBao(object):
                                 break
                             else:
                                 while now_times <= total_times:
-                                    task_title_content.click()
+                                    task_title_button.click()
                                     wait_time_pbar(5 + 20)
-
-                                    # wait_time_pbar(20)
 
                                     logger.debug(f"返回一下")
                                     self.driver.back()
@@ -300,8 +296,6 @@ class TaoBao(object):
             #     else:
             #         wait_time_pbar(5)
             #
-            #         wait_time_pbar(20)
-            #
             #         # todo: class="android.widget.Image" 找到这个元素退出
             #         self.driver.back()
             #         wait_time_pbar(8)
@@ -319,6 +313,9 @@ class TaoBao(object):
                     # 喂猫领红包,每次消耗60000喵币,再升1级领红包
                     feed_div = '//*[contains(@text, "喂猫领红包,")]'
                     self.driver.find_element_by_xpath(feed_div).click()
+                except NoSuchElementException as msg:
+                    logger.warning(f"【喂猫领红包】点击无法找到元素")
+                    break
                 except:
                     logger.warning(f"【喂猫领红包】点击异常={traceback.format_exc()}")
                     break
