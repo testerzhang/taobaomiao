@@ -158,11 +158,37 @@ class TaoBao(object):
                     except:
                         logger.warning(f"【{task}】点击异常={traceback.format_exc()}")
                     else:
-                        wait_time_pbar(5 + 20)
+                        wait_time_pbar(5)
+
+                        browse_times = 1
+                        browse_max_times = 11
+                        browse_10_times = True
+                        while browse_times <= browse_max_times:
+                            try:
+                                logger.debug(f"browse_times={browse_times}")
+                                # 进入种草喵币城
+                                browse_div = f'//android.view.View[@text="逛店最多"]'
+                                browse_button = self.driver.find_element_by_xpath(browse_div)
+                                browse_button.click()
+                                wait_time_pbar(20)
+                                logger.debug(f"返回一下")
+                                self.driver.back()
+                                wait_time_pbar(2)
+                            except NoSuchElementException:
+                                logger.warning(f"没有在【种草喵币城】找到【逛店】的按钮")
+                                browse_10_times = False
+                                break
+                            finally:
+                                browse_times = browse_times + 1
+
+                        if not browse_10_times and browse_times == 2:
+                            wait_time_pbar(20)
+                        else:
+                            wait_time_pbar(2)
 
                         logger.debug(f"返回一下")
                         self.driver.back()
-                        wait_time_pbar(8)
+                        wait_time_pbar(5)
 
                 elif (')' in task) or ('逛' in task) or ('搜' in task):
                     try:
