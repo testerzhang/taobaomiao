@@ -30,7 +30,7 @@
 2. 本人使用的是Python 3.8.6，需要安装相关Python第三方库
 
 ```
-cd 2021
+cd 202111
 pip3 install -r requirements.txt
 ```
 

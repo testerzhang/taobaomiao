@@ -23,6 +23,9 @@ DESIRED_CAPS = {
     # "resetKeyboard": True
 }
 
+# 首页是否使用XPATH找入口
+HOME_XPATH_FLAG = True
+
 # 执行任务:赚喵糖
 DO_COINS_FLAG = True
 
@@ -46,4 +49,6 @@ SKIP_LIST = [
     '浏览天天领现金(0/1)',
     '完成糖果飞行小互动(0/1)',
     '小互动',
+    # 这个还没处理，暂时跳过
+    '每日签到领喵糖(0/1)',
 ]

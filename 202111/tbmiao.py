@@ -65,6 +65,8 @@ class TaoBao(object):
 
         sleep_time = 5
         logger.debug(f"2.查找喵币入口")
+        # source = self.driver.page_source
+        # logger.debug(f"首页source:{source}")
 
         # 如果屏幕小，可能需要滑动一下
         # self.start_x = 26
@@ -76,28 +78,36 @@ class TaoBao(object):
 
         wait_time_bar(sleep_time)
 
-        try:
-            img_div = '//android.widget.FrameLayout[contains(@index,18)]'
+        if not config.HOME_XPATH_FLAG:
+            logger.debug(f"使用位置来点击入口")
+            # 每个手机位置不一样，需要根据bounds（(如：[26,1025][540,1290]）重新设定
+            self.driver.tap([(26, 1025), (540, 1290)], 100)
+            search_result = True
+        else:
+            try:
+                # 每个手机展示的内容不一样，这个index可能不一样，需要动态修改。
+                img_div = '//android.widget.FrameLayout[contains(@index,16)]'
 
-            img_button = self.driver.find_elements_by_xpath(img_div)
-            # logger.debug(f"img_button={img_button},img_button_len={len(img_button)}")
-            if len(img_button) > 0:
-                logger.debug("开始点击喵币入口")
-                img_button[0].click()
-                search_result = True
-                logger.debug("点击喵币入口完毕")
+                img_button = self.driver.find_elements_by_xpath(img_div)
 
-        except NoSuchElementException as msg:
-            img_button = self.driver.find_elements_by_xpath(img_div)
-            logger.debug(f"img_button={img_button}")
-            if len(img_button) > 0:
-                logger.debug("尝试第二次点击喵币入口")
-                img_button[0].click()
-                search_result = True
-                logger.debug("点击第二次喵币入口完毕")
+                # logger.debug(f"img_button={img_button},img_button_len={len(img_button)}")
+                if len(img_button) > 0:
+                    logger.debug("开始点击喵币入口")
+                    img_button[0].click()
+                    search_result = True
+                    logger.debug("点击喵币入口完毕")
 
-        except:
-            raise Exception("找不到喵币入口")
+            except NoSuchElementException as msg:
+                img_button = self.driver.find_elements_by_xpath(img_div)
+                logger.debug(f"img_button={img_button}")
+                if len(img_button) > 0:
+                    logger.debug("尝试第二次点击喵币入口")
+                    img_button[0].click()
+                    search_result = True
+                    logger.debug("点击第二次喵币入口完毕")
+
+            except:
+                raise Exception("找不到喵币入口")
 
         if search_result:
             # 加载新页面时间
@@ -138,6 +148,9 @@ class TaoBao(object):
                     try:
                         logger.debug(f"开始做任务列表:【{task}】")
                         task_button.click()
+
+                        # todo: 立即领取后有弹窗，未处理。
+
                     except:
                         logger.warning(f"【{task}】点击异常={traceback.format_exc()}")
                     else:
