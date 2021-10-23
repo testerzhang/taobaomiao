@@ -487,7 +487,8 @@ class TaoBao(object):
 
         if config.DO_COINS_FLAG:
             # 领喵币
-            self.do_coins('赚喵糖')
+            #self.do_coins('赚喵糖')
+            self.do_coins('赚糖领红包')
 
         # # 点击收取生产的喵币
         # if config.RECEIVE_COINS_FLAG:
